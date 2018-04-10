@@ -53,16 +53,16 @@
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+  <link rel="icon" href="/favicon.ico?v=5.1.4">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="[Regex] Regular Expression (正規表示法)用途 Search Replace Validate Reformat  好處 語法精簡 速度極快 多工具的支援">
+<meta name="description" content="什麼是 Regular ExpressionRegular Expression 中文為「正規表達式」，代碼中常簡寫為 regex, regexp, RE">
 <meta name="keywords" content="regex">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Regular Expression 起手式">
 <meta property="og:url" content="http://vincechan26.com/2018/04/10/起手式/index.html">
 <meta property="og:site_name" content="Vince&#39;s notes">
-<meta property="og:description" content="[Regex] Regular Expression (正規表示法)用途 Search Replace Validate Reformat  好處 語法精簡 速度極快 多工具的支援">
+<meta property="og:description" content="什麼是 Regular ExpressionRegular Expression 中文為「正規表達式」，代碼中常簡寫為 regex, regexp, RE">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-04-10T09:00:33.000Z">
+<meta property="og:updated_time" content="2018-04-10T09:48:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Regular Expression 起手式">
-<meta name="twitter:description" content="[Regex] Regular Expression (正規表示法)用途 Search Replace Validate Reformat  好處 語法精簡 速度極快 多工具的支援">
+<meta name="twitter:description" content="什麼是 Regular ExpressionRegular Expression 中文為「正規表達式」，代碼中常簡寫為 regex, regexp, RE">
 
 
 
@@ -300,7 +300,8 @@
       
 
       
-        <h1 id="Regex-Regular-Expression-正規表示法"><a href="#Regex-Regular-Expression-正規表示法" class="headerlink" title="[Regex] Regular Expression (正規表示法)"></a><a name="regex">[Regex] Regular Expression (正規表示法)</a></h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><ol>
+        <h2 id="什麼是-Regular-Expression"><a href="#什麼是-Regular-Expression" class="headerlink" title="什麼是 Regular Expression"></a>什麼是 Regular Expression</h2><p>Regular Expression 中文為「正規表達式」，代碼中常簡寫為 regex, regexp, RE<br><a id="more"></a></p>
+<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><ol>
 <li>Search</li>
 <li>Replace</li>
 <li>Validate</li>
@@ -311,15 +312,14 @@
 <li>速度極快</li>
 <li>多工具的支援</li>
 </ol>
-<a id="more"></a>
-<h3 id="特殊字元"><a href="#特殊字元" class="headerlink" title="特殊字元 [\^$.|?*+()]"></a>特殊字元 <code>[\^$.|?*+()]</code></h3><blockquote>
+<h2 id="運用"><a href="#運用" class="headerlink" title="運用"></a>運用</h2><h3 id="特殊字元"><a href="#特殊字元" class="headerlink" title="特殊字元 [\^$.|?*+()]"></a>特殊字元 <code>[\^$.|?*+()]</code></h3><blockquote>
 <p>若遇到以上特殊字元需加上 <code>反斜線(\)</code></p>
 </blockquote>
 <h3 id="任意字元"><a href="#任意字元" class="headerlink" title="任意字元 ."></a>任意字元 <code>.</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// world 會被選取</span><br><span class="line">hello world 取出 &#123;.&#125;orld</span><br><span class="line">(regex): /.orld/</span><br></pre></td></tr></table></figure>
 <h3 id="多字元縮寫"><a href="#多字元縮寫" class="headerlink" title="多字元縮寫"></a>多字元縮寫</h3><p><code>[]</code> 為多個字元選取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\d - digit /[0-9]/</span><br><span class="line">\w - word  /[A-Za-z0-9_]/</span><br><span class="line">\s - space /[\n\r\t]/</span><br><span class="line"></span><br><span class="line">\D - non-digit /[^0-9]/</span><br><span class="line">\W - non-word  /[^A-Za-z0-9_]/</span><br><span class="line">\S - non-space [^\n\r\t]</span><br></pre></td></tr></table></figure></p>
 <h3 id="次數規範"><a href="#次數規範" class="headerlink" title="次數規範"></a>次數規範</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 符號</span><br><span class="line">* - 任意次數</span><br><span class="line">+ - 至少一次</span><br><span class="line">? - 零或一次</span><br><span class="line"></span><br><span class="line">// 符合的次數</span><br><span class="line">&#123;次數&#125;</span><br><span class="line">&#123;最少次數, 最大次數&#125;</span><br><span class="line"></span><br><span class="line">/l*/</span><br><span class="line"></span><br><span class="line">Q. hello world 取出 l 的部分</span><br><span class="line">A. (regex): ll l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Q. hello world 取出兩個 l 的部分</span><br><span class="line">A.（regex): /l&#123;2&#125;/</span><br></pre></td></tr></table></figure>
 <h3 id="頭尾"><a href="#頭尾" class="headerlink" title="頭尾"></a>頭尾</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^ - 開頭</span><br><span class="line">$ - 結尾</span><br><span class="line"></span><br><span class="line">hello baby 選取 he</span><br><span class="line">(regex): /^he/</span><br><span class="line"></span><br><span class="line">hello baby 取出結尾的 by</span><br><span class="line">(regex): /by$/</span><br></pre></td></tr></table></figure>
-<h3 id="常用例子"><a href="#常用例子" class="headerlink" title="常用例子"></a>常用例子</h3><table>
+<h2 id="常見範例"><a href="#常見範例" class="headerlink" title="常見範例"></a>常見範例</h2><table>
 <thead>
 <tr>
 <th>regex</th>
@@ -353,11 +353,11 @@
 <blockquote>
 <p>此範例 regex 不驗證邏輯，單純驗證格式</p>
 </blockquote>
-<h3 id="練習-I"><a href="#練習-I" class="headerlink" title="練習 I"></a>練習 I</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;I am a web developer&apos; 取出 a</span><br><span class="line">(regex): /\ba\b/g</span><br></pre></td></tr></table></figure>
+<h2 id="練習"><a href="#練習" class="headerlink" title="練習"></a>練習</h2><h3 id="I"><a href="#I" class="headerlink" title="I"></a>I</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;I am a web developer&apos; 取出 a</span><br><span class="line">(regex): /\ba\b/g</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>\b: boundary 意指無邊界<br><br>g: gobal 意指全域，若沒有加 g, 則抓取到第一筆符合後後面不尋找<br><br>i: 不論大小寫</p>
 </blockquote>
-<h3 id="選取"><a href="#選取" class="headerlink" title="選取"></a>選取</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&apos;apple&apos;.match(/(a.)(p.)e/)</span><br><span class="line">// $1 = &apos;ap&apos;;</span><br><span class="line">// $2 = &apos;pl&apos;;</span><br><span class="line"></span><br><span class="line">&apos;apple&apos;.replace(/(a.)(p.)e/, &apos;$1$1&apos;)</span><br><span class="line">// result: apap</span><br></pre></td></tr></table></figure>
+<h3 id="II-選取"><a href="#II-選取" class="headerlink" title="II 選取"></a>II 選取</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&apos;apple&apos;.match(/(a.)(p.)e/)</span><br><span class="line">// $1 = &apos;ap&apos;;</span><br><span class="line">// $2 = &apos;pl&apos;;</span><br><span class="line"></span><br><span class="line">&apos;apple&apos;.replace(/(a.)(p.)e/, &apos;$1$1&apos;)</span><br><span class="line">// result: apap</span><br></pre></td></tr></table></figure>
 <p><span style="color: white; background:#FFB435; border: 1px solid; border-radius: 5px; padding: 5px;margin: 5px; display: inline">tips</span><br></p>
 <blockquote>
 <p>VSCode 有支援 regex, 請使用 command + f 並點選 .*<br>regex 的運用也可以在 mac terminal 上進行運用</p>
@@ -524,7 +524,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Regex-Regular-Expression-正規表示法"><span class="nav-number">1.</span> <span class="nav-text">[Regex] Regular Expression (正規表示法)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用途"><span class="nav-number">1.1.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#好處"><span class="nav-number">1.2.</span> <span class="nav-text">好處</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊字元"><span class="nav-number">1.2.1.</span> <span class="nav-text">特殊字元 [\^$.|?*+()]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任意字元"><span class="nav-number">1.2.2.</span> <span class="nav-text">任意字元 .</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多字元縮寫"><span class="nav-number">1.2.3.</span> <span class="nav-text">多字元縮寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#次數規範"><span class="nav-number">1.2.4.</span> <span class="nav-text">次數規範</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#頭尾"><span class="nav-number">1.2.5.</span> <span class="nav-text">頭尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用例子"><span class="nav-number">1.2.6.</span> <span class="nav-text">常用例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#練習-I"><span class="nav-number">1.2.7.</span> <span class="nav-text">練習 I</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#選取"><span class="nav-number">1.2.8.</span> <span class="nav-text">選取</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什麼是-Regular-Expression"><span class="nav-number">1.</span> <span class="nav-text">什麼是 Regular Expression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途"><span class="nav-number">2.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#好處"><span class="nav-number">3.</span> <span class="nav-text">好處</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#運用"><span class="nav-number">4.</span> <span class="nav-text">運用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊字元"><span class="nav-number">4.1.</span> <span class="nav-text">特殊字元 [\^$.|?*+()]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任意字元"><span class="nav-number">4.2.</span> <span class="nav-text">任意字元 .</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多字元縮寫"><span class="nav-number">4.3.</span> <span class="nav-text">多字元縮寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#次數規範"><span class="nav-number">4.4.</span> <span class="nav-text">次數規範</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#頭尾"><span class="nav-number">4.5.</span> <span class="nav-text">頭尾</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常見範例"><span class="nav-number">5.</span> <span class="nav-text">常見範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#練習"><span class="nav-number">6.</span> <span class="nav-text">練習</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I"><span class="nav-number">6.1.</span> <span class="nav-text">I</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-選取"><span class="nav-number">6.2.</span> <span class="nav-text">II 選取</span></a></li></ol></li></ol></div>
             
 
           </div>
