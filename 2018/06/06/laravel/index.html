@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+  <meta name="keywords" content="Laravel,Routing,Hashing,Session,Eloquent,CSRF,Blade,Migration,Lang,Old Input,Middleware,Database,Package," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="學習了 Laravel 一年多了，來整理一下學習到的一些小技巧。">
+<meta name="keywords" content="Laravel,Routing,Hashing,Session,Eloquent,CSRF,Blade,Migration,Lang,Old Input,Middleware,Database,Package">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel">
+<meta property="og:url" content="http://vincechan26.com/2018/06/06/laravel/index.html">
+<meta property="og:site_name" content="Vince&#39;s notes">
+<meta property="og:description" content="學習了 Laravel 一年多了，來整理一下學習到的一些小技巧。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2018-06-07T09:01:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laravel">
+<meta name="twitter:description" content="學習了 Laravel 一年多了，來整理一下學習到的一些小技巧。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincechan26.com/2018/06/06/laravel/"/>
+
+
+
+
+
+  <title>Laravel | Vince's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vince's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincechan26.com/2018/06/06/laravel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vince Chan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vince's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Laravel</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-06-06T15:59:25+08:00">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>學習了 Laravel 一年多了，來整理一下學習到的一些小技巧。<br><a id="more"></a></p>
+<h2 id="Hashing"><a href="#Hashing" class="headerlink" title="Hashing"></a>Hashing</h2><blockquote>
+<p>Laravel 對密碼加密後，密碼長度固定為 60</p>
+</blockquote>
+<h3 id="加密密碼"><a href="#加密密碼" class="headerlink" title="加密密碼"></a>加密密碼</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># import facades\hash</span><br><span class="line">use Illuminate\Support\Facades\Hash;</span><br><span class="line"></span><br><span class="line"># encryption</span><br><span class="line">Hash::make($password);</span><br></pre></td></tr></table></figure>
+<h3 id="驗證密碼"><a href="#驗證密碼" class="headerlink" title="驗證密碼"></a>驗證密碼</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># import facades\hash</span><br><span class="line">use Illuminate\Support\Facades\Hash;</span><br><span class="line"></span><br><span class="line"># Verify hash password</span><br><span class="line">Hash::check($password, $hashPassword);</span><br></pre></td></tr></table></figure>
+<h2 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h2><h3 id="Restful-API"><a href="#Restful-API" class="headerlink" title="Restful API"></a>Restful API</h3><p>GET: 查詢資料<br>POST: 新增資料<br>PUT: 修改資料<br>DELETE: 刪除資料<br>PATCH: 對資料做部分更新</p>
+<h3 id="列出現在所有的路由端口資訊"><a href="#列出現在所有的路由端口資訊" class="headerlink" title="列出現在所有的路由端口資訊"></a>列出現在所有的路由端口資訊</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan route:list</span><br></pre></td></tr></table></figure>
+<h2 id="Blade-templates"><a href="#Blade-templates" class="headerlink" title="Blade templates"></a>Blade templates</h2><h3 id="Mustache"><a href="#Mustache" class="headerlink" title="Mustache"></a>Mustache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 當模板接收到控制器的資料後，可以使用 &#123;&#123;&#125;&#125; 將資料印出。</span><br><span class="line"></span><br><span class="line">// 如同 &lt;?php echo htmlentities($title)?&gt;</span><br><span class="line">&#123;&#123; $title &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>主要作用：將變數資料的特殊字元做編碼轉換，避免 <code>XSS 攻擊</code></p>
+<blockquote>
+<p>XSS: 全名為 Cross-site scripting, 中譯為「跨網站指令碼」，將程式碼注入到網頁上。<br>避免方式：<a href="http://php.net/manual/en/function.htmlentities.php" target="_blank" rel="noopener">htmlentities</a>, <a href="http://php.net/manual/en/function.htmlspecialchars.php" target="_blank" rel="noopener">htmlspecialchars</a></p>
+</blockquote>
+<p>若是不想將變數進行 <code>htmlentities</code> 轉換直接輸出的話可使用以下方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 如同 &lt;?php echo $title ?&gt;</span><br><span class="line">&#123;!! $title !!&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="變動資料處理"><a href="#變動資料處理" class="headerlink" title="變動資料處理"></a>變動資料處理</h3><p>將會變動的資料使用 <code>@yield()</code> 去取代</p>
+<h3 id="共用元件處理"><a href="#共用元件處理" class="headerlink" title="共用元件處理"></a>共用元件處理</h3><p>在畫面上的共用元件，使用 <code>@include()</code> 進行載入</p>
+<h2 id="Migration"><a href="#Migration" class="headerlink" title="Migration"></a>Migration</h2><h3 id="使用-artisan-建立-Migration-檔案"><a href="#使用-artisan-建立-Migration-檔案" class="headerlink" title="使用 artisan 建立 Migration 檔案"></a>使用 artisan 建立 Migration 檔案</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// [fileName] 位置為 檔案名稱</span><br><span class="line">$ php artisan make:migration [fileName]</span><br></pre></td></tr></table></figure>
+<h3 id="執行-Migration-檔案"><a href="#執行-Migration-檔案" class="headerlink" title="執行 Migration 檔案"></a>執行 Migration 檔案</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan migrate</span><br></pre></td></tr></table></figure>
+<h3 id="恢復上一版本的-migration-檔案"><a href="#恢復上一版本的-migration-檔案" class="headerlink" title="恢復上一版本的 migration 檔案"></a>恢復上一版本的 migration 檔案</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan migrate:rollback</span><br></pre></td></tr></table></figure>
+<h3 id="清除所有的-migration-版本"><a href="#清除所有的-migration-版本" class="headerlink" title="清除所有的 migration 版本"></a>清除所有的 migration 版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan migrate:reset</span><br></pre></td></tr></table></figure>
+<h3 id="重設所有的-migration-版本，重新建立-migration"><a href="#重設所有的-migration-版本，重新建立-migration" class="headerlink" title="重設所有的 migration 版本，重新建立 migration"></a>重設所有的 migration 版本，重新建立 migration</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan migrate:refresh</span><br></pre></td></tr></table></figure>
+<h3 id="如何在-Production-進行欄位變更"><a href="#如何在-Production-進行欄位變更" class="headerlink" title="如何在 Production 進行欄位變更"></a>如何在 Production 進行欄位變更</h3><p>當產品上線時，若要新增欄位的話，必須針對個別檔案進行 migration 建置。</p>
+<p><code>--table</code> 和 <code>--create</code> 選項也可以用於某個表，以及是否遷移將創建一個新的資料表。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// create_users_table, users 皆為示意</span><br><span class="line">$ php artisan make:migration create_users_table --create=users</span><br><span class="line"></span><br><span class="line">// add_votes_to_users_table, users 皆為示意</span><br><span class="line">$ php artisan make:migration add_votes_to_users_table --table=users</span><br></pre></td></tr></table></figure></p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>英譯 Cross-Site Request Forgery, 中譯「跨網站請求偽造」。</p>
+<p>是請求偽造的惡意攻擊，在表單送出時，必須確認是使用者從網站發出的請求，CSRF 產生的方式有兩種，方式如下：</p>
+<h3 id="手動產生-CSRF-token"><a href="#手動產生-CSRF-token" class="headerlink" title="手動產生 CSRF token"></a>手動產生 CSRF token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;hidden&quot; name=&quot;_token&quot; value=&quot;&#123;&#123; csrf_token() &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Laravel-產生-CSRF-token"><a href="#Laravel-產生-CSRF-token" class="headerlink" title="Laravel 產生 CSRF token"></a>Laravel 產生 CSRF token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;!! csrf_field() !!&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Lang"><a href="#Lang" class="headerlink" title="Lang"></a>Lang</h2><h3 id="語系檔路徑"><a href="#語系檔路徑" class="headerlink" title="語系檔路徑"></a>語系檔路徑</h3><p>路徑位址為 <code>/resources/lang/</code> 目錄中</p>
+<h2 id="Old-Input"><a href="#Old-Input" class="headerlink" title="Old Input"></a>Old Input</h2><h3 id="驗證錯誤表單資料保留"><a href="#驗證錯誤表單資料保留" class="headerlink" title="驗證錯誤表單資料保留"></a>驗證錯誤表單資料保留</h3><p>當使用者 key in 錯誤資料時，我們往往會將使用者導向至先前的頁面。但是回先前頁面，資料卻必須要全部重新 key in，為了解決這種問題，我們在重新導向時，使用 <code>withInput()</code> 帶入使用者先前 key in 的資料。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if ($validator-&gt;fails()) &#123;</span><br><span class="line">    return redirect(&apos;/user/edit&apos;)</span><br><span class="line">        -&gt;withInput();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在模板中透過 <code>old()</code> 方法接收原先表單 key in 的資料<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Email：&lt;input type=&quot;text&quot; name=&quot;email value=&quot;&#123;&#123; old(&apos;email&apos;) &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Eloquent"><a href="#Eloquent" class="headerlink" title="Eloquent"></a>Eloquent</h2><h3 id="印出-SQL-語法"><a href="#印出-SQL-語法" class="headerlink" title="印出 SQL 語法"></a>印出 SQL 語法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// import DB module</span><br><span class="line">use DB;</span><br><span class="line"></span><br><span class="line">// 啟用紀錄 SQL 語法</span><br><span class="line">DB::enableQueryLog();</span><br><span class="line"></span><br><span class="line">// query action ....</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 印出目前所有執行的 SQL 語法</span><br><span class="line">dd(DB::getQueryLog());</span><br></pre></td></tr></table></figure>
+<h2 id="HTTP-Redirects"><a href="#HTTP-Redirects" class="headerlink" title="HTTP Redirects"></a>HTTP Redirects</h2><h3 id="導向回先前頁面"><a href="#導向回先前頁面" class="headerlink" title="導向回先前頁面"></a>導向回先前頁面</h3><p>在進行 transcation 時，通常會將使用者導向回 login 頁面，確保使用者資訊沒遺失，實作方式如下：<br><code>redirect()-&gt;intended()</code> 可以讓使用者導向回先前登入前的頁面</p>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><h3 id="遇到-Load-balance"><a href="#遇到-Load-balance" class="headerlink" title="遇到 Load balance"></a>遇到 Load balance</h3><blockquote>
+<p>當遇到有 load balance 時，會將 session 放在共用的 server 上，像是 database, redis, memcached</p>
+</blockquote>
+<h3 id="移除-session"><a href="#移除-session" class="headerlink" title="移除 session"></a>移除 session</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session()-&gt;forget()</span><br></pre></td></tr></table></figure>
+<h2 id="Middleware"><a href="#Middleware" class="headerlink" title="Middleware"></a>Middleware</h2><h3 id="建立-Middleware"><a href="#建立-Middleware" class="headerlink" title="建立 Middleware"></a>建立 Middleware</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan make:middleware [fileName]</span><br></pre></td></tr></table></figure>
+<h3 id="註冊-Middleware"><a href="#註冊-Middleware" class="headerlink" title="註冊 Middleware"></a>註冊 Middleware</h3><p>當完成 Middleware 檔案後，要在 <code>app/Http/Kernel.php</code> 做載入</p>
+<h2 id="Database-Transactions"><a href="#Database-Transactions" class="headerlink" title="Database Transactions"></a>Database Transactions</h2><h3 id="交易-transcation"><a href="#交易-transcation" class="headerlink" title="交易(transcation)"></a>交易(transcation)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// import DB module</span><br><span class="line">use DB;</span><br><span class="line"></span><br><span class="line">try &#123;</span><br><span class="line">    DB::transaction(function () use () &#123;</span><br><span class="line">        // ... do something</span><br><span class="line">    &#125;);</span><br><span class="line">&#125; catch (Exception $e) &#123;</span><br><span class="line">    // throw Exception</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><h3 id="寄送通知信"><a href="#寄送通知信" class="headerlink" title="寄送通知信"></a>寄送通知信</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安裝 Guzzle HTTP 函式庫</span><br><span class="line">$ composer require guzzlehttp/guzzle</span><br></pre></td></tr></table></figure>
+<h3 id="第三方認證-實作-facebook-google-github-登入"><a href="#第三方認證-實作-facebook-google-github-登入" class="headerlink" title="第三方認證 (實作 facebook, google, github 登入)"></a>第三方認證 (實作 facebook, google, github 登入)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require laravel/socialite</span><br></pre></td></tr></table></figure>
+<p>安裝完成後，依照官方的安裝指示，在 <code>config/app.php</code> 檔案中的 providers 與 aliases 加入套件設定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">// config/app.php</span><br><span class="line"></span><br><span class="line">return [</span><br><span class="line">    // 載入 Service Providers</span><br><span class="line">    &apos;providers&apos; =&gt; [</span><br><span class="line">        Laravel\Socialite\SocialiteServiceProvider::class,</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    // 類別命名</span><br><span class="line">    &apos;aliases&apos; =&gt; [</span><br><span class="line">        &apos;Socialite&apos; =&gt; Laravel\Socialite\Facades\Socialite::class</span><br><span class="line">    ],</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<h4 id="設定-facebook-資料"><a href="#設定-facebook-資料" class="headerlink" title="設定 facebook 資料"></a>設定 facebook 資料</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">// config/services.php</span><br><span class="line"></span><br><span class="line">return [</span><br><span class="line">    &apos;facebook&apos; =&gt; [</span><br><span class="line">        &apos;client_id&apos;       =&gt; env(&apos;FB_CLIENT_ID&apos;),</span><br><span class="line">        &apos;client_secret&apos;   =&gt; env(&apos;FB_CLIENT_SECRET&apos;),</span><br><span class="line">        &apos;redirect&apos;        =&gt; env(&apos;FB_REDIRECT&apos;),</span><br><span class="line">    ],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>撰寫完檔案後，必須到 <a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener"> Facebook Developers</a> 取得參數，並寫入到 <code>.env</code> 檔案內。</p>
+<blockquote>
+<p>在使用 Facebook 第三方認證時，必須要設定重新導向允許取得授權資料的網址，並將網址加入設定「有效的 OAuth 重新導向 URI」中。</p>
+</blockquote>
+<h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><p>為了達到工作延遲處理的目的，會使用 Queue 來處理工作延遲，有點類似 Deamon。</p>
+<h3 id="建立-Job"><a href="#建立-Job" class="headerlink" title="建立 Job"></a>建立 Job</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan make:job [fileName]</span><br></pre></td></tr></table></figure>
+<p>輸入完 cli 後，可以在 app/Jobs 目錄內看到檔案。<br>最常見的例子就是註冊完後的郵件寄送。</p>
+<h3 id="使用-Redis-存取-Job"><a href="#使用-Redis-存取-Job" class="headerlink" title="使用 Redis 存取 Job"></a>使用 Redis 存取 Job</h3><p>在派發 Job 時，若是 Job 數增加時，我們可以先將它寫入 database, redis, beanstalkd, Amazon SQS，以下我們進行 Redis 的安裝<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require &quot;predis/predis&quot;</span><br></pre></td></tr></table></figure></p>
+<p>安裝完 Redis 後，在 <code>config/queue.php</code> 內寫入 Redis 設定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// config/queue.php</span><br><span class="line"></span><br><span class="line">return [</span><br><span class="line">    &apos;default&apos; =&gt; env(&apos;QUEUE_DRIVER&apos;, &apos;sync&apos;);</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<h3 id="檢查-Job-程序"><a href="#檢查-Job-程序" class="headerlink" title="檢查 Job 程序"></a>檢查 Job 程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan queue:listen</span><br></pre></td></tr></table></figure>
+<h3 id="持續執行-Job-工具-Supervisor"><a href="#持續執行-Job-工具-Supervisor" class="headerlink" title="持續執行 Job - 工具 Supervisor"></a>持續執行 Job - 工具 Supervisor</h3><p>最好的程序處理方式是將程序丟到作業系統的背景執行，在機器重開後，還能自動繼續執行程序，可以使用 <code>Supervisor</code> 完成這樣的工作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安裝 supervisor</span><br><span class="line">$ sudo apt-get install supervisor</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+          
+            <a href="/tags/Routing/" rel="tag"># Routing</a>
+          
+            <a href="/tags/Hashing/" rel="tag"># Hashing</a>
+          
+            <a href="/tags/Session/" rel="tag"># Session</a>
+          
+            <a href="/tags/Eloquent/" rel="tag"># Eloquent</a>
+          
+            <a href="/tags/CSRF/" rel="tag"># CSRF</a>
+          
+            <a href="/tags/Blade/" rel="tag"># Blade</a>
+          
+            <a href="/tags/Migration/" rel="tag"># Migration</a>
+          
+            <a href="/tags/Lang/" rel="tag"># Lang</a>
+          
+            <a href="/tags/Old-Input/" rel="tag"># Old Input</a>
+          
+            <a href="/tags/Middleware/" rel="tag"># Middleware</a>
+          
+            <a href="/tags/Database/" rel="tag"># Database</a>
+          
+            <a href="/tags/Package/" rel="tag"># Package</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/webpack/" rel="next" title="Webpack">
+                <i class="fa fa-chevron-left"></i> Webpack
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Vince Chan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hashing"><span class="nav-number">1.</span> <span class="nav-text">Hashing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加密密碼"><span class="nav-number">1.1.</span> <span class="nav-text">加密密碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#驗證密碼"><span class="nav-number">1.2.</span> <span class="nav-text">驗證密碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Routing"><span class="nav-number">2.</span> <span class="nav-text">Routing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Restful-API"><span class="nav-number">2.1.</span> <span class="nav-text">Restful API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出現在所有的路由端口資訊"><span class="nav-number">2.2.</span> <span class="nav-text">列出現在所有的路由端口資訊</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blade-templates"><span class="nav-number">3.</span> <span class="nav-text">Blade templates</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mustache"><span class="nav-number">3.1.</span> <span class="nav-text">Mustache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#變動資料處理"><span class="nav-number">3.2.</span> <span class="nav-text">變動資料處理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共用元件處理"><span class="nav-number">3.3.</span> <span class="nav-text">共用元件處理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Migration"><span class="nav-number">4.</span> <span class="nav-text">Migration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-artisan-建立-Migration-檔案"><span class="nav-number">4.1.</span> <span class="nav-text">使用 artisan 建立 Migration 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#執行-Migration-檔案"><span class="nav-number">4.2.</span> <span class="nav-text">執行 Migration 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢復上一版本的-migration-檔案"><span class="nav-number">4.3.</span> <span class="nav-text">恢復上一版本的 migration 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除所有的-migration-版本"><span class="nav-number">4.4.</span> <span class="nav-text">清除所有的 migration 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重設所有的-migration-版本，重新建立-migration"><span class="nav-number">4.5.</span> <span class="nav-text">重設所有的 migration 版本，重新建立 migration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在-Production-進行欄位變更"><span class="nav-number">4.6.</span> <span class="nav-text">如何在 Production 進行欄位變更</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF"><span class="nav-number">5.</span> <span class="nav-text">CSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#手動產生-CSRF-token"><span class="nav-number">5.1.</span> <span class="nav-text">手動產生 CSRF token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Laravel-產生-CSRF-token"><span class="nav-number">5.2.</span> <span class="nav-text">Laravel 產生 CSRF token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lang"><span class="nav-number">6.</span> <span class="nav-text">Lang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#語系檔路徑"><span class="nav-number">6.1.</span> <span class="nav-text">語系檔路徑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Old-Input"><span class="nav-number">7.</span> <span class="nav-text">Old Input</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#驗證錯誤表單資料保留"><span class="nav-number">7.1.</span> <span class="nav-text">驗證錯誤表單資料保留</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Eloquent"><span class="nav-number">8.</span> <span class="nav-text">Eloquent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#印出-SQL-語法"><span class="nav-number">8.1.</span> <span class="nav-text">印出 SQL 語法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-Redirects"><span class="nav-number">9.</span> <span class="nav-text">HTTP Redirects</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#導向回先前頁面"><span class="nav-number">9.1.</span> <span class="nav-text">導向回先前頁面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session"><span class="nav-number">10.</span> <span class="nav-text">Session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到-Load-balance"><span class="nav-number">10.1.</span> <span class="nav-text">遇到 Load balance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除-session"><span class="nav-number">10.2.</span> <span class="nav-text">移除 session</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Middleware"><span class="nav-number">11.</span> <span class="nav-text">Middleware</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-Middleware"><span class="nav-number">11.1.</span> <span class="nav-text">建立 Middleware</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#註冊-Middleware"><span class="nav-number">11.2.</span> <span class="nav-text">註冊 Middleware</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Database-Transactions"><span class="nav-number">12.</span> <span class="nav-text">Database Transactions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交易-transcation"><span class="nav-number">12.1.</span> <span class="nav-text">交易(transcation)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Package"><span class="nav-number">13.</span> <span class="nav-text">Package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#寄送通知信"><span class="nav-number">13.1.</span> <span class="nav-text">寄送通知信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三方認證-實作-facebook-google-github-登入"><span class="nav-number">13.2.</span> <span class="nav-text">第三方認證 (實作 facebook, google, github 登入)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-facebook-資料"><span class="nav-number">13.2.1.</span> <span class="nav-text">設定 facebook 資料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Queue"><span class="nav-number">14.</span> <span class="nav-text">Queue</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-Job"><span class="nav-number">14.1.</span> <span class="nav-text">建立 Job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Redis-存取-Job"><span class="nav-number">14.2.</span> <span class="nav-text">使用 Redis 存取 Job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#檢查-Job-程序"><span class="nav-number">14.3.</span> <span class="nav-text">檢查 Job 程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持續執行-Job-工具-Supervisor"><span class="nav-number">14.4.</span> <span class="nav-text">持續執行 Job - 工具 Supervisor</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vince Chan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
