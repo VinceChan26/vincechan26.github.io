@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+  <meta name="keywords" content="webpack3,webpack4,webpack-dev-server,vue-loader,eslint-loader," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="vue webpack3 升級成 webpack4在 2019 年初的時候收到來自於 Github 的 Security Alert, 告知我 Webpack-dev-server@^2.9.1 有漏洞，需要從原先的 webpack-dev-server: ^2.9.1 升級到 ^3.1.11 所以就來採了 webpack 升級的坑了">
+<meta name="keywords" content="webpack3,webpack4,webpack-dev-server,vue-loader,eslint-loader">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue webpack3 升級成 webpack4">
+<meta property="og:url" content="http://vincechan26.com/2019/01/14/wepack3-grade/index.html">
+<meta property="og:site_name" content="Vince&#39;s notes">
+<meta property="og:description" content="vue webpack3 升級成 webpack4在 2019 年初的時候收到來自於 Github 的 Security Alert, 告知我 Webpack-dev-server@^2.9.1 有漏洞，需要從原先的 webpack-dev-server: ^2.9.1 升級到 ^3.1.11 所以就來採了 webpack 升級的坑了">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2019-01-14T10:11:27.305Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue webpack3 升級成 webpack4">
+<meta name="twitter:description" content="vue webpack3 升級成 webpack4在 2019 年初的時候收到來自於 Github 的 Security Alert, 告知我 Webpack-dev-server@^2.9.1 有漏洞，需要從原先的 webpack-dev-server: ^2.9.1 升級到 ^3.1.11 所以就來採了 webpack 升級的坑了">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincechan26.com/2019/01/14/wepack3-grade/"/>
+
+
+
+
+
+  <title>vue webpack3 升級成 webpack4 | Vince's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vince's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincechan26.com/2019/01/14/wepack3-grade/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vince Chan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vince's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue webpack3 升級成 webpack4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-01-14T18:09:16+08:00">
+                2019-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="vue-webpack3-升級成-webpack4"><a href="#vue-webpack3-升級成-webpack4" class="headerlink" title="vue webpack3 升級成 webpack4"></a>vue webpack3 升級成 webpack4</h1><p>在 2019 年初的時候收到來自於 Github 的 Security Alert, 告知我 Webpack-dev-server@^2.9.1 有漏洞，需要從原先的 <code>webpack-dev-server: ^2.9.1</code> 升級到 <code>^3.1.11</code></p>
+<p>所以就來採了 webpack 升級的坑了<br><a id="more"></a></p>
+<h1 id="Necessary"><a href="#Necessary" class="headerlink" title="Necessary"></a>Necessary</h1><h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><p><code>node &gt;= 6.11.5 OR 8 以上的 LTS version</code></p>
+<h2 id="mode-模式配置"><a href="#mode-模式配置" class="headerlink" title="mode 模式配置"></a>mode 模式配置</h2><p>mode 是 webpack4 新增的參數選項。</p>
+<p>有兩個值可選 <code>development</code> 與 <code>production</code><br>|option|Description|<br>|——-|—–|<br>|development| 啟用 NamedChunksPlugin, NamedModulesPlugin|<br>|production| 啟用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin, TerserPlugin|<br>|none| 不使用任何默認優化|</p>
+<p><span style="color: red"><code>NODE_ENV 並不會自動配置 mode，所以 mode 必須自建</code></span></p>
+<h3 id="mode-development"><a href="#mode-development" class="headerlink" title="mode: development"></a>mode: development</h3><ul>
+<li>瀏覽器工具</li>
+<li>優化建構速度與開發體驗</li>
+<li>內建 <code>NamedModulesPlugin</code>, <code>NoEmitOnErrorsPlugin</code></li>
+<li>開發模式下支援註解與提示</li>
+</ul>
+<h3 id="mode-production"><a href="#mode-production" class="headerlink" title="mode: production"></a>mode: production</h3><ul>
+<li>預啟用所有優化功能 (<code>minify</code>, <code>splite</code> etc.)</li>
+<li>內建 <code>Scope hoisting</code>, <code>Tree-shaking</code> (原<code>ModuleConcatenationPlugin</code>), <code>NoEmitOnErrorsPlugin</code>, <code>optimization.minimize</code></li>
+<li>不支持 watching</li>
+<li><code>process.env.NODE_ENV</code> 的值不需要再定義，不再使用 <code>DefinePlugin</code></li>
+<li>去除開發模式下的 <code>code</code>, 註解</li>
+<li>更小的 <code>bundle</code> 大小</li>
+</ul>
+<h3 id="mode-none"><a href="#mode-none" class="headerlink" title="mode: none"></a>mode: none</h3><p>會禁用所有的預載入，可以使用 <code>optiomization.*</code> 搭配出自己的自定義模式</p>
+<h2 id="安裝-webpack-cli"><a href="#安裝-webpack-cli" class="headerlink" title="安裝 webpack-cli"></a>安裝 webpack-cli</h2><p>在 webpack4 中 cli 工具拆分成了 webpack 庫與 webpack-cli 命令行工具兩個庫，<span style="color: red">需要使用 cli，就必須安装 webpack-cli</span>，安裝語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D webpack-cli</span><br></pre></td></tr></table></figure></p>
+<h2 id="webpack-configure-插件優化"><a href="#webpack-configure-插件優化" class="headerlink" title="webpack configure 插件優化"></a>webpack configure 插件優化</h2><ul>
+<li>新增 <code>optimization.splitChunks</code> 和 <code>optimization.runtimeChunk</code> 替代 <code>CommonsChunkPlugin</code></li>
+<li>新增 <code>optimization.noEmitOnErrors</code> 替代 <code>NoEmitOnErrorsPlugin</code></li>
+<li>新增 <code>optimization.namedModules</code> 来替代 <code>NamedModulesPlugin</code></li>
+<li>預載入 <code>optimization.minimize</code> 來壓縮</li>
+</ul>
+<h2 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h2><p>升級 webpack packages，語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D webpack webpack-bundle-analyzer webpack-dev-server webpack-merge extract-text-webpack-plugin@4.0.0-beta.0 uglifyjs-webpack-plugin optimize-css-assets-webpack-plugin</span><br></pre></td></tr></table></figure></p>
+<p>升級 karam packages，語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D karma karma-coverage karma-mocha karma-phantomjs-launcher karma-phantomjs-shim karma-sinon-chaikarma-sourcemap-loader karma-spec-reporter karma-webpack@lastest</span><br></pre></td></tr></table></figure></p>
+<h1 id="Issues-Summary"><a href="#Issues-Summary" class="headerlink" title="Issues Summary"></a>Issues Summary</h1><h3 id="TypeError-Cannot-read-property-‘eslint’-of-undefined"><a href="#TypeError-Cannot-read-property-‘eslint’-of-undefined" class="headerlink" title="TypeError: Cannot read property ‘eslint’ of undefined"></a>TypeError: Cannot read property ‘eslint’ of undefined</h3><p>錯誤訊息全文：</p>
+<blockquote>
+<p><span style="color: red"><code>Module build failed (from ./node_modules/eslint-loader/index.js):
+TypeError: Cannot read property &#39;eslint&#39; of undefined</code></span></p>
+</blockquote>
+<h4 id="Repair"><a href="#Repair" class="headerlink" title="Repair"></a>Repair</h4><p>遇上了 <code>eslint-loader</code> 權限上的問題，解決方法配置 <code>LoaderOptions</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">   new webpack.LoaderOptionsPlugin(&#123;</span><br><span class="line">       options: &#123;&#125;</span><br><span class="line">   &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="eslint-loader-錯誤"><a href="#eslint-loader-錯誤" class="headerlink" title="eslint-loader 錯誤"></a>eslint-loader 錯誤</h3><p>錯誤訊息全文：</p>
+<blockquote>
+<p><span style="color: red"><code>TypeError: Cannot read property &#39;eslint&#39; of undefined at Object.module.exports (...)</code></span></p>
+</blockquote>
+<h4 id="Repair-1"><a href="#Repair-1" class="headerlink" title="Repair"></a>Repair</h4><p>查了一下 eslint-loader 與 webpack 4 的問題後，發現 eslint-loader@2 的時候有進行修正。</p>
+<p>所以就來升級 eslint-loader, 語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D eslint-loader</span><br></pre></td></tr></table></figure></p>
+<h3 id="wepack3-升級到-webpack4"><a href="#wepack3-升級到-webpack4" class="headerlink" title="wepack3 升級到 webpack4"></a>wepack3 升級到 webpack4</h3><p><span style="color: red"><code>webpack 4 後，一定要設定 mode</code></span></p>
+<h3 id="插件修正"><a href="#插件修正" class="headerlink" title="插件修正"></a>插件修正</h3><h4 id="Repair-2"><a href="#Repair-2" class="headerlink" title="Repair"></a>Repair</h4><p>webpack4 中有提到使用 <code>optimization.splitChunks</code>, <code>optimization.runtimeChunk</code> 替代 <code>CommonsChunkPlugin</code> 所以將有使用到 <code>CommonsChunkPlugin</code> 修正為 <span style="color: red"><code>RuntimeChunkPlugin</code></span></p>
+<p>內建 <code>optimization.noEmitOnErrors</code> 替代 <code>NoEmitOnErrorsPlugin</code>,<br>內建 <code>optimization.namedModules</code> 替代 <code>NamedModulesPlugin</code></p>
+<h3 id="CommonsChunkPlugin-已被刪除，建議使用-splitChunks"><a href="#CommonsChunkPlugin-已被刪除，建議使用-splitChunks" class="headerlink" title="CommonsChunkPlugin 已被刪除，建議使用 splitChunks"></a>CommonsChunkPlugin 已被刪除，建議使用 splitChunks</h3><p>錯誤訊息全文：</p>
+<blockquote>
+<p><span style="color: red">Error: webpack.optimize.CommonsChunkPlugin has been removed, please use config.optimization.splitChunks instead.</span></p>
+</blockquote>
+<h4 id="Repair-3"><a href="#Repair-3" class="headerlink" title="Repair"></a>Repair</h4><p>原：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">  name: &apos;vendor&apos;,</span><br><span class="line">  minChunks (module) &#123;</span><br><span class="line">    return (</span><br><span class="line">      module.resource &amp;&amp;</span><br><span class="line">      /\.js$/.test(module.resource) &amp;&amp;</span><br><span class="line">      module.resource.indexOf(</span><br><span class="line">        path.join(__dirname, &apos;../node_modules&apos;)</span><br><span class="line">      ) === 0</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;),</span><br><span class="line">new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">  name: &apos;manifest&apos;,</span><br><span class="line">  minChunks: Infinity</span><br><span class="line">&#125;),</span><br><span class="line">new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">  name: &apos;app&apos;,</span><br><span class="line">  async: &apos;vendor-async&apos;,</span><br><span class="line">  children: true,</span><br><span class="line">  minChunks: 3</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>修改後：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">new webpack.optimize.RuntimeChunkPlugin(&#123;</span><br><span class="line">  name: &apos;vendor&apos;,</span><br><span class="line">  minChunks (module) &#123;</span><br><span class="line">    return (</span><br><span class="line">      module.resource &amp;&amp;</span><br><span class="line">      /\.js$/.test(module.resource) &amp;&amp;</span><br><span class="line">      module.resource.indexOf(</span><br><span class="line">        path.join(__dirname, &apos;../node_modules&apos;)</span><br><span class="line">      ) === 0</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;),</span><br><span class="line">new webpack.optimize.RuntimeChunkPlugin(&#123;</span><br><span class="line">  name: &apos;manifest&apos;,</span><br><span class="line">  minChunks: Infinity</span><br><span class="line">&#125;),</span><br><span class="line">new webpack.optimize.RuntimeChunkPlugin(&#123;</span><br><span class="line">  name: &apos;app&apos;,</span><br><span class="line">  async: &apos;vendor-async&apos;,</span><br><span class="line">  children: true,</span><br><span class="line">  minChunks: 3</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="extract-text-webpack-plugin-contenthash-編譯失敗問題"><a href="#extract-text-webpack-plugin-contenthash-編譯失敗問題" class="headerlink" title="extract-text-webpack-plugin [contenthash] 編譯失敗問題"></a>extract-text-webpack-plugin [contenthash] 編譯失敗問題</h3><p><span style="color: red"><code>Error: Path variable [contenthash] not implemented in this context: static/css/[name].[contenthash].css</code></span></p>
+<h4 id="Repair-1"><a href="#Repair-1" class="headerlink" title="Repair 1:"></a>Repair 1:</h4><p>將 ExtractTextPlugin 中的 contenthash 修改成 hash</p>
+<p>原：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new ExtractTextPlugin(&#123;</span><br><span class="line">    filename: utils.assetsPath(&apos;css/[name].[hash].css&apos;),</span><br><span class="line">    allChunks: true,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure></p>
+<p>修改後：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new ExtractTextPlugin(&#123;</span><br><span class="line">    filename: utils.assetsPath(&apos;css/[name].[chunkhash].css&apos;),</span><br><span class="line">    allChunks: true,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure></p>
+<h4 id="Repair-2"><a href="#Repair-2" class="headerlink" title="Repair 2:"></a>Repair 2:</h4><p>將 extract-text-webpack-plugin 改用 mini-css-extract-plugin</p>
+<h3 id="vue-loader-編譯失敗"><a href="#vue-loader-編譯失敗" class="headerlink" title="vue-loader 編譯失敗"></a>vue-loader 編譯失敗</h3><p><span style="color: red">TypeError: Cannot read property ‘vue’ of undefined</span><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D vue-loader</span><br></pre></td></tr></table></figure></p>
+<p>若安裝的是 <code>vue-loader@15</code> 必須在 <code>webpack.prod.conf.js</code> 檔案內載入 <code>vue-loader</code>, 語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const VueLoaderPlugin = require(&apos;vue-loader/lib/plugin&apos;)</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    new VueLoaderPlugin()</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="檔案大小警告"><a href="#檔案大小警告" class="headerlink" title="檔案大小警告"></a>檔案大小警告</h3><p><span style="color: red">WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).</span></p>
+<p>添加在 <code>webpack.conf</code> 中處理語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">performance: &#123;</span><br><span class="line">    hints: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a href="https://webpack.js.org/concepts/mode" target="_blank" rel="noopener">https://webpack.js.org/concepts/mode</a><br><a href="https://github.com/webpack/webpack/issues/6556" target="_blank" rel="noopener">https://github.com/webpack/webpack/issues/6556</a><br><a href="https://github.com/dwqs/blog/issues/60" target="_blank" rel="noopener">https://github.com/dwqs/blog/issues/60</a><br><a href="https://www.smwenku.com/a/5b8cf99b2b71771883380a19/" target="_blank" rel="noopener">https://www.smwenku.com/a/5b8cf99b2b71771883380a19/</a><br><a href="https://segmentfault.com/a/1190000015639537" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015639537</a><br><a href="https://www.jianshu.com/p/0bd6d0df79fb" target="_blank" rel="noopener">https://www.jianshu.com/p/0bd6d0df79fb</a><br><a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a</a><br><a href="https://juejin.im/post/5bd2c74fe51d457a845f8c4d" target="_blank" rel="noopener">https://juejin.im/post/5bd2c74fe51d457a845f8c4d</a><br><a href="http://coderlt.coding.me/2018/04/12/webpack4/" target="_blank" rel="noopener">http://coderlt.coding.me/2018/04/12/webpack4/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack3/" rel="tag"># webpack3</a>
+          
+            <a href="/tags/webpack4/" rel="tag"># webpack4</a>
+          
+            <a href="/tags/webpack-dev-server/" rel="tag"># webpack-dev-server</a>
+          
+            <a href="/tags/vue-loader/" rel="tag"># vue-loader</a>
+          
+            <a href="/tags/eslint-loader/" rel="tag"># eslint-loader</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/06/laravel/" rel="next" title="Laravel">
+                <i class="fa fa-chevron-left"></i> Laravel
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Vince Chan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue-webpack3-升級成-webpack4"><span class="nav-number">1.</span> <span class="nav-text">vue webpack3 升級成 webpack4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Necessary"><span class="nav-number">2.</span> <span class="nav-text">Necessary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment"><span class="nav-number">2.1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mode-模式配置"><span class="nav-number">2.2.</span> <span class="nav-text">mode 模式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mode-development"><span class="nav-number">2.2.1.</span> <span class="nav-text">mode: development</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mode-production"><span class="nav-number">2.2.2.</span> <span class="nav-text">mode: production</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mode-none"><span class="nav-number">2.2.3.</span> <span class="nav-text">mode: none</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-webpack-cli"><span class="nav-number">2.3.</span> <span class="nav-text">安裝 webpack-cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-configure-插件優化"><span class="nav-number">2.4.</span> <span class="nav-text">webpack configure 插件優化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Upgrade"><span class="nav-number">2.5.</span> <span class="nav-text">Upgrade</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Issues-Summary"><span class="nav-number">3.</span> <span class="nav-text">Issues Summary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeError-Cannot-read-property-‘eslint’-of-undefined"><span class="nav-number">3.0.1.</span> <span class="nav-text">TypeError: Cannot read property ‘eslint’ of undefined</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair"><span class="nav-number">3.0.1.1.</span> <span class="nav-text">Repair</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eslint-loader-錯誤"><span class="nav-number">3.0.2.</span> <span class="nav-text">eslint-loader 錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair-1"><span class="nav-number">3.0.2.1.</span> <span class="nav-text">Repair</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wepack3-升級到-webpack4"><span class="nav-number">3.0.3.</span> <span class="nav-text">wepack3 升級到 webpack4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件修正"><span class="nav-number">3.0.4.</span> <span class="nav-text">插件修正</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair-2"><span class="nav-number">3.0.4.1.</span> <span class="nav-text">Repair</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonsChunkPlugin-已被刪除，建議使用-splitChunks"><span class="nav-number">3.0.5.</span> <span class="nav-text">CommonsChunkPlugin 已被刪除，建議使用 splitChunks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair-3"><span class="nav-number">3.0.5.1.</span> <span class="nav-text">Repair</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extract-text-webpack-plugin-contenthash-編譯失敗問題"><span class="nav-number">3.0.6.</span> <span class="nav-text">extract-text-webpack-plugin [contenthash] 編譯失敗問題</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair-1"><span class="nav-number">3.0.6.1.</span> <span class="nav-text">Repair 1:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Repair-2"><span class="nav-number">3.0.6.2.</span> <span class="nav-text">Repair 2:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue-loader-編譯失敗"><span class="nav-number">3.0.7.</span> <span class="nav-text">vue-loader 編譯失敗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#檔案大小警告"><span class="nav-number">3.0.8.</span> <span class="nav-text">檔案大小警告</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">3.0.8.1.</span> <span class="nav-text">References</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vince Chan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
