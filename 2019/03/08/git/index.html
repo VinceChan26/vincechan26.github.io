@@ -50,7 +50,7 @@
 
 
 
-  <meta name="keywords" content="currying," />
+  <meta name="keywords" content="git," />
 
 
 
@@ -61,18 +61,18 @@
 
 
 
-<meta name="description" content="currying, javascript currying, 柯里化">
-<meta name="keywords" content="currying">
+<meta name="description" content="Git - 集中式版本控制系統(Centralized Version Control Systems，簡稱CVCSs), 介紹一些常使用的 Command">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Currying in Javascript ES6">
-<meta property="og:url" content="http://vincechan26.com/2018/03/16/currying/index.html">
+<meta property="og:title" content="git">
+<meta property="og:url" content="http://vincechan26.com/2019/03/08/git/index.html">
 <meta property="og:site_name" content="Vince&#39;s notes">
-<meta property="og:description" content="currying, javascript currying, 柯里化">
+<meta property="og:description" content="Git - 集中式版本控制系統(Centralized Version Control Systems，簡稱CVCSs), 介紹一些常使用的 Command">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-25T02:53:52.616Z">
+<meta property="og:updated_time" content="2019-03-08T10:19:43.240Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Currying in Javascript ES6">
-<meta name="twitter:description" content="currying, javascript currying, 柯里化">
+<meta name="twitter:title" content="git">
+<meta name="twitter:description" content="Git - 集中式版本控制系統(Centralized Version Control Systems，簡稱CVCSs), 介紹一些常使用的 Command">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -101,7 +101,7 @@
 
 
 
-  <link rel="canonical" href="http://vincechan26.com/2018/03/16/currying/"/>
+  <link rel="canonical" href="http://vincechan26.com/2019/03/08/git/"/>
 
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117628471-2"></script>
@@ -112,7 +112,7 @@
 
   gtag('config', 'UA-117628471-2');
 </script>
-  <title>Currying in Javascript ES6 | Vince's notes</title>
+  <title>git | Vince's notes</title>
   
 
 
@@ -219,7 +219,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vincechan26.com/2018/03/16/currying/">
+    <link itemprop="mainEntityOfPage" href="http://vincechan26.com/2019/03/08/git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Vince Chan">
@@ -236,7 +236,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Currying in Javascript ES6</h1>
+          <h1 class="post-title" itemprop="name headline">git</h1>
         
 
         <div class="post-meta">
@@ -248,8 +248,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-03-16T13:46:42+08:00">
-                2018-03-16
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-08T15:08:22+08:00">
+                2019-03-08
               </time>
             
 
@@ -283,16 +283,36 @@
       
 
       
-        <h2 id="currying"><a href="#currying" class="headerlink" title="currying"></a><a name="currying">currying</a></h2><p>currying 又稱「柯里化」。</p>
-<a id="more"></a>
-<h3 id="何謂-currying"><a href="#何謂-currying" class="headerlink" title="何謂 currying ?"></a>何謂 currying ?</h3><blockquote>
-<p>將多個參數(param)，轉換成接收單一參數 (param) 的函數 (function)</p>
-</blockquote>
-<h3 id="currying-規則"><a href="#currying-規則" class="headerlink" title="currying 規則"></a>currying 規則</h3><blockquote>
-<p>將一個 N 元函式轉換成一個一元函式，這個一元函式再回傳一個一元函式</p>
-</blockquote>
-<h4 id="before-currying"><a href="#before-currying" class="headerlink" title="before currying"></a>before currying</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let sum = ((x, y, z) =&gt; &#123;</span><br><span class="line">  return x + y + z;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">sum(1, 2, 3); // returns 6</span><br></pre></td></tr></table></figure>
-<h4 id="after-currying"><a href="#after-currying" class="headerlink" title="after currying"></a>after currying</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let sum = ((x) =&gt; &#123;</span><br><span class="line">  return ((y) =&gt; &#123;</span><br><span class="line">    return ((z) =&gt; &#123;</span><br><span class="line">      return x + y + z;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">sum(1)(2)(3); // return 6</span><br></pre></td></tr></table></figure>
+        <h1 id="改寫提交"><a href="#改寫提交" class="headerlink" title="改寫提交"></a>改寫提交</h1><p>使用時機：</p>
+<ul>
+<li>增加最近提交時漏掉的檔案</li>
+<li>修改最近的提交的內容或註解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="如何寫好-Commit-Message"><a href="#如何寫好-Commit-Message" class="headerlink" title="如何寫好 Commit Message"></a>如何寫好 Commit Message</h2><ul>
+<li>用新的空行將標題和主體兩者隔開。</li>
+<li>標題首字母大寫</li>
+<li>不要用句號結束標題</li>
+<li>標題中使用祈使句</li>
+<li>主體部分去解釋「是什麼」和「為什麼」而不是怎麼做</li>
+</ul>
+<h1 id="檢視提交的歷史記錄"><a href="#檢視提交的歷史記錄" class="headerlink" title="檢視提交的歷史記錄"></a>檢視提交的歷史記錄</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log</span><br></pre></td></tr></table></figure>
+<h1 id="檢視主體的歷史紀錄-不包含-id-及摘要"><a href="#檢視主體的歷史紀錄-不包含-id-及摘要" class="headerlink" title="檢視主體的歷史紀錄 (不包含 id 及摘要)"></a>檢視主體的歷史紀錄 (不包含 id 及摘要)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git shortlog</span><br></pre></td></tr></table></figure>
+<h1 id="刪除-Local-所有已經不在-Remote-的分支"><a href="#刪除-Local-所有已經不在-Remote-的分支" class="headerlink" title="刪除 Local 所有已經不在 Remote 的分支"></a>刪除 Local 所有已經不在 Remote 的分支</h1><p>以下提供兩種方法，二擇一即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch -p &amp;&amp; for branch in `git branch -vv | grep &apos;: gone]&apos; | awk &apos;&#123;print $1&#125;&apos;`; do git branch -D $branch; done</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote prune origin</span><br></pre></td></tr></table></figure>
+<h1 id="取消過去的提交"><a href="#取消過去的提交" class="headerlink" title="取消過去的提交"></a>取消過去的提交</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git revert</span><br></pre></td></tr></table></figure>
+<h1 id="改寫提交的歷史紀錄"><a href="#改寫提交的歷史紀錄" class="headerlink" title="改寫提交的歷史紀錄"></a>改寫提交的歷史紀錄</h1><p>在 push 之前，重新輸入正確的提交註解<br>將含義上相近的內容，合併成清楚的提交<br>增加最近提交時漏掉的檔案<br>git rebase -i (-i 參數，可以改寫提交，替換，刪除，合併)</p>
+<h1 id="匯合分支上的提交一同合併"><a href="#匯合分支上的提交一同合併" class="headerlink" title="匯合分支上的提交一同合併"></a>匯合分支上的提交一同合併</h1><h2 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h2><p>先使用 git log 查看 commit ID<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase -i commit ID</span><br></pre></td></tr></table></figure></p>
+<p>e.g:</p>
+<pre><code>commit  1 -&gt; 2 -&gt; 3
+
+git  rebase -i 1 
+
+後對 2, 3 commit message 做 squash
+
+在使用 git log 觀看 message 是否 squash
+</code></pre><p>squash</p>
+<p>Reference<br><a href="https://github.com/wearehive/project-guidelines/blob/master/README-zh.md" target="_blank" rel="noopener">https://github.com/wearehive/project-guidelines/blob/master/README-zh.md</a></p>
 
       
     </div>
@@ -310,7 +330,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/currying/" rel="tag"># currying</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
         </div>
       
@@ -323,15 +343,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/01/14/wepack3-grade/" rel="next" title="vue webpack3 升級成 webpack4">
+                <i class="fa fa-chevron-left"></i> vue webpack3 升級成 webpack4
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/10/起手式/" rel="prev" title="Regular Expression 起手式">
-                Regular Expression 起手式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -454,7 +474,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#currying"><span class="nav-number">1.</span> <span class="nav-text">currying</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何謂-currying"><span class="nav-number">1.1.</span> <span class="nav-text">何謂 currying ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#currying-規則"><span class="nav-number">1.2.</span> <span class="nav-text">currying 規則</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#before-currying"><span class="nav-number">1.2.1.</span> <span class="nav-text">before currying</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#after-currying"><span class="nav-number">1.2.2.</span> <span class="nav-text">after currying</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫提交"><span class="nav-number">1.</span> <span class="nav-text">改寫提交</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何寫好-Commit-Message"><span class="nav-number">1.1.</span> <span class="nav-text">如何寫好 Commit Message</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視提交的歷史記錄"><span class="nav-number">2.</span> <span class="nav-text">檢視提交的歷史記錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視主體的歷史紀錄-不包含-id-及摘要"><span class="nav-number">3.</span> <span class="nav-text">檢視主體的歷史紀錄 (不包含 id 及摘要)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#刪除-Local-所有已經不在-Remote-的分支"><span class="nav-number">4.</span> <span class="nav-text">刪除 Local 所有已經不在 Remote 的分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#取消過去的提交"><span class="nav-number">5.</span> <span class="nav-text">取消過去的提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫提交的歷史紀錄"><span class="nav-number">6.</span> <span class="nav-text">改寫提交的歷史紀錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#匯合分支上的提交一同合併"><span class="nav-number">7.</span> <span class="nav-text">匯合分支上的提交一同合併</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step"><span class="nav-number">7.1.</span> <span class="nav-text">Step</span></a></li></ol></li></ol></div>
             
 
           </div>
