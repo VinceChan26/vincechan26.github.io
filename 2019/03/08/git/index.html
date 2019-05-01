@@ -69,7 +69,7 @@
 <meta property="og:site_name" content="Vince&#39;s notes">
 <meta property="og:description" content="Git - 集中式版本控制系統(Centralized Version Control Systems，簡稱CVCSs), 介紹一些常使用的 Command">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-08T10:19:43.240Z">
+<meta property="og:updated_time" content="2019-05-01T08:20:38.932Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git">
 <meta name="twitter:description" content="Git - 集中式版本控制系統(Centralized Version Control Systems，簡稱CVCSs), 介紹一些常使用的 Command">
@@ -283,7 +283,7 @@
       
 
       
-        <h1 id="改寫提交"><a href="#改寫提交" class="headerlink" title="改寫提交"></a>改寫提交</h1><p>使用時機：</p>
+        <h1 id="改寫-commit"><a href="#改寫-commit" class="headerlink" title="改寫 commit"></a>改寫 commit</h1><p>使用時機：</p>
 <ul>
 <li>增加最近提交時漏掉的檔案</li>
 <li>修改最近的提交的內容或註解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
@@ -296,12 +296,20 @@
 <li>標題中使用祈使句</li>
 <li>主體部分去解釋「是什麼」和「為什麼」而不是怎麼做</li>
 </ul>
-<h1 id="檢視提交的歷史記錄"><a href="#檢視提交的歷史記錄" class="headerlink" title="檢視提交的歷史記錄"></a>檢視提交的歷史記錄</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log</span><br></pre></td></tr></table></figure>
-<h1 id="檢視主體的歷史紀錄-不包含-id-及摘要"><a href="#檢視主體的歷史紀錄-不包含-id-及摘要" class="headerlink" title="檢視主體的歷史紀錄 (不包含 id 及摘要)"></a>檢視主體的歷史紀錄 (不包含 id 及摘要)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git shortlog</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="檢視-commit-log"><a href="#檢視-commit-log" class="headerlink" title="檢視 commit log"></a>檢視 commit log</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="檢視-commit-log-不包含-id-及摘要"><a href="#檢視-commit-log-不包含-id-及摘要" class="headerlink" title="檢視 commit log (不包含 id 及摘要)"></a>檢視 commit log (不包含 id 及摘要)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git shortlog</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="檢視變更-內容"><a href="#檢視變更-內容" class="headerlink" title="檢視變更(內容)"></a>檢視變更(內容)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff</span><br></pre></td></tr></table></figure>
+<p><br></p>
 <h1 id="刪除-Local-所有已經不在-Remote-的分支"><a href="#刪除-Local-所有已經不在-Remote-的分支" class="headerlink" title="刪除 Local 所有已經不在 Remote 的分支"></a>刪除 Local 所有已經不在 Remote 的分支</h1><p>以下提供兩種方法，二擇一即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch -p &amp;&amp; for branch in `git branch -vv | grep &apos;: gone]&apos; | awk &apos;&#123;print $1&#125;&apos;`; do git branch -D $branch; done</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote prune origin</span><br></pre></td></tr></table></figure>
+<p><br></p>
 <h1 id="取消過去的提交"><a href="#取消過去的提交" class="headerlink" title="取消過去的提交"></a>取消過去的提交</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git revert</span><br></pre></td></tr></table></figure>
+<p><br></p>
 <h1 id="改寫提交的歷史紀錄"><a href="#改寫提交的歷史紀錄" class="headerlink" title="改寫提交的歷史紀錄"></a>改寫提交的歷史紀錄</h1><p>在 push 之前，重新輸入正確的提交註解<br>將含義上相近的內容，合併成清楚的提交<br>增加最近提交時漏掉的檔案<br>git rebase -i (-i 參數，可以改寫提交，替換，刪除，合併)</p>
+<p><br></p>
 <h1 id="匯合分支上的提交一同合併"><a href="#匯合分支上的提交一同合併" class="headerlink" title="匯合分支上的提交一同合併"></a>匯合分支上的提交一同合併</h1><h2 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h2><p>先使用 git log 查看 commit ID<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase -i commit ID</span><br></pre></td></tr></table></figure></p>
 <p>e.g:</p>
 <pre><code>commit  1 -&gt; 2 -&gt; 3
@@ -312,7 +320,8 @@ git  rebase -i 1
 
 在使用 git log 觀看 message 是否 squash
 </code></pre><p>squash</p>
-<p>Reference<br><a href="https://github.com/wearehive/project-guidelines/blob/master/README-zh.md" target="_blank" rel="noopener">https://github.com/wearehive/project-guidelines/blob/master/README-zh.md</a></p>
+<p><br></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://github.com/wearehive/project-guidelines/blob/master/README-zh.md" target="_blank" rel="noopener">https://github.com/wearehive/project-guidelines/blob/master/README-zh.md</a></p>
 
       
     </div>
@@ -432,7 +441,7 @@ git  rebase -i 1
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -445,7 +454,7 @@ git  rebase -i 1
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
@@ -478,7 +487,7 @@ git  rebase -i 1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫提交"><span class="nav-number">1.</span> <span class="nav-text">改寫提交</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何寫好-Commit-Message"><span class="nav-number">1.1.</span> <span class="nav-text">如何寫好 Commit Message</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視提交的歷史記錄"><span class="nav-number">2.</span> <span class="nav-text">檢視提交的歷史記錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視主體的歷史紀錄-不包含-id-及摘要"><span class="nav-number">3.</span> <span class="nav-text">檢視主體的歷史紀錄 (不包含 id 及摘要)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#刪除-Local-所有已經不在-Remote-的分支"><span class="nav-number">4.</span> <span class="nav-text">刪除 Local 所有已經不在 Remote 的分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#取消過去的提交"><span class="nav-number">5.</span> <span class="nav-text">取消過去的提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫提交的歷史紀錄"><span class="nav-number">6.</span> <span class="nav-text">改寫提交的歷史紀錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#匯合分支上的提交一同合併"><span class="nav-number">7.</span> <span class="nav-text">匯合分支上的提交一同合併</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step"><span class="nav-number">7.1.</span> <span class="nav-text">Step</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫-commit"><span class="nav-number">1.</span> <span class="nav-text">改寫 commit</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何寫好-Commit-Message"><span class="nav-number">1.1.</span> <span class="nav-text">如何寫好 Commit Message</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視-commit-log"><span class="nav-number">2.</span> <span class="nav-text">檢視 commit log</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視-commit-log-不包含-id-及摘要"><span class="nav-number">3.</span> <span class="nav-text">檢視 commit log (不包含 id 及摘要)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢視變更-內容"><span class="nav-number">4.</span> <span class="nav-text">檢視變更(內容)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#刪除-Local-所有已經不在-Remote-的分支"><span class="nav-number">5.</span> <span class="nav-text">刪除 Local 所有已經不在 Remote 的分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#取消過去的提交"><span class="nav-number">6.</span> <span class="nav-text">取消過去的提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改寫提交的歷史紀錄"><span class="nav-number">7.</span> <span class="nav-text">改寫提交的歷史紀錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#匯合分支上的提交一同合併"><span class="nav-number">8.</span> <span class="nav-text">匯合分支上的提交一同合併</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step"><span class="nav-number">8.1.</span> <span class="nav-text">Step</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">9.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>

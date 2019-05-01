@@ -69,7 +69,7 @@
 <meta property="og:site_name" content="Vince&#39;s notes">
 <meta property="og:description" content="vue.js, vue-router, vuex, vue 起手式, vue 初學, vue 初探, vuex state, vuex getters, vuex mutations, vuex actions">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-25T02:55:41.826Z">
+<meta property="og:updated_time" content="2019-05-01T08:12:24.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue &amp; vue-router &amp; vuex">
 <meta name="twitter:description" content="vue.js, vue-router, vuex, vue 起手式, vue 初學, vue 初探, vuex state, vuex getters, vuex mutations, vuex actions">
@@ -285,6 +285,7 @@
       
         <h1 id="全局安裝-vue-cli"><a href="#全局安裝-vue-cli" class="headerlink" title="全局安裝 vue-cli"></a>全局安裝 vue-cli</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --g vue-cli</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<p><br></p>
 <h1 id="使用-vue-cli-創建專案"><a href="#使用-vue-cli-創建專案" class="headerlink" title="使用 vue cli 創建專案"></a>使用 vue cli 創建專案</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack &#123;my-project&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="快速開發適用"><a href="#快速開發適用" class="headerlink" title="快速開發適用"></a>快速開發適用<br></h2><blockquote>
 <p>simple: 用於單頁應用程式的最小化設定<br>webpack-simple: 基礎的 webpack + vue-loader<br>browserify-simple: 擁有基礎功能的的 Browserify + vueify</p>
@@ -292,6 +293,7 @@
 <h2 id="產品開發適用"><a href="#產品開發適用" class="headerlink" title="產品開發適用"></a>產品開發適用</h2><blockquote>
 <p>webpack 擁有進階功能的 webpack + vue-loader 用於正式開發<br>browserify: 擁有進階功能的 Browserify + vueify 用於正式開發</p>
 </blockquote>
+<p><br></p>
 <h1 id="what-is-vue-router"><a href="#what-is-vue-router" class="headerlink" title="what is vue-router"></a>what is vue-router</h1><p>它是 Vue.js 的官方路由管理器，它與 Vue.js 的核心深度集成，讓建構 SPA 應用變得簡單。</p>
 <h2 id="關於前端路由"><a href="#關於前端路由" class="headerlink" title="關於前端路由"></a>關於前端路由</h2><p><code>前端路由是不存在「請求」一說。</code><br>前端路由是直接找到位址符合的元件或是物件並將其繪製出來，並實踐了 SPA (<code>Single Page Application</code>)</p>
 <h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><h3 id="use-npm-install"><a href="#use-npm-install" class="headerlink" title="use npm install"></a>use npm install</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mpm install vue-router</span><br></pre></td></tr></table></figure>
@@ -308,6 +310,7 @@
 <p>vue-router 提供了<code>「命名路由 (name)」</code>取代舊式的 URL 路徑。</p>
 <p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;router-link :to=&quot;&#123; name: &apos;Home&apos;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure></p>
 <h2 id="如何追蹤動態路徑參數"><a href="#如何追蹤動態路徑參數" class="headerlink" title="如何追蹤動態路徑參數"></a>如何追蹤動態路徑參數</h2><p>透過 <code>this.$route</code> 可以將動態路徑的參數讀取出來。</p>
+<p><br></p>
 <h1 id="what-is-vuex"><a href="#what-is-vuex" class="headerlink" title="what is vuex"></a>what is vuex</h1><p>Vuex 是一個專為 Vue.js 應用程式開發的<code>狀態管理模式</code>。</p>
 <p>vuex 狀態管理應用分為以下幾個部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">state: 資料來源，也就是各種共用變數</span><br><span class="line">view: 已宣告方式將 state 對映到視圖，有點像是 &lt;template&gt; 模組上參考 state 並自動處理重繪</span><br><span class="line">actions: 回應 view 上使用者輸入導致的狀態變化</span><br></pre></td></tr></table></figure></p>
 <h2 id="Installation-1"><a href="#Installation-1" class="headerlink" title="Installation"></a>Installation</h2><h3 id="use-npm-install-1"><a href="#use-npm-install-1" class="headerlink" title="use npm install"></a>use npm install</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install vuex</span><br></pre></td></tr></table></figure>
@@ -441,7 +444,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -454,7 +457,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>

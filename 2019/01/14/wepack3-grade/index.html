@@ -69,7 +69,7 @@
 <meta property="og:site_name" content="Vince&#39;s notes">
 <meta property="og:description" content="vue webpack3 upgrade to webpack4, webpack upgrade, v3 to v4">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-25T02:31:56.794Z">
+<meta property="og:updated_time" content="2019-05-01T08:13:30.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue webpack3 升級成 webpack4">
 <meta name="twitter:description" content="vue webpack3 upgrade to webpack4, webpack upgrade, v3 to v4">
@@ -285,6 +285,7 @@
       
         <h1 id="vue-webpack3-升級成-webpack4"><a href="#vue-webpack3-升級成-webpack4" class="headerlink" title="vue webpack3 升級成 webpack4"></a>vue webpack3 升級成 webpack4</h1><p>在 2019 年初的時候收到來自於 Github 的 Security Alert, 告知我 Webpack-dev-server@^2.9.1 有漏洞，需要從原先的 <code>webpack-dev-server: ^2.9.1</code> 升級到 <code>^3.1.11</code></p>
 <p>所以就來採了 webpack 升級的坑了<br><a id="more"></a></p>
+<p><br></p>
 <h1 id="Necessary"><a href="#Necessary" class="headerlink" title="Necessary"></a>Necessary</h1><h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><p><code>node &gt;= 6.11.5 OR 8 以上的 LTS version</code></p>
 <h2 id="mode-模式配置"><a href="#mode-模式配置" class="headerlink" title="mode 模式配置"></a>mode 模式配置</h2><p>mode 是 webpack4 新增的參數選項。</p>
 <p>有兩個值可選 <code>development</code> 與 <code>production</code><br>|option|Description|<br>|——-|—–|<br>|development| 啟用 NamedChunksPlugin, NamedModulesPlugin|<br>|production| 啟用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin, TerserPlugin|<br>|none| 不使用任何默認優化|</p>
@@ -313,6 +314,7 @@
 </ul>
 <h2 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h2><p>升級 webpack packages，語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D webpack webpack-bundle-analyzer webpack-dev-server webpack-merge extract-text-webpack-plugin@4.0.0-beta.0 uglifyjs-webpack-plugin optimize-css-assets-webpack-plugin</span><br></pre></td></tr></table></figure></p>
 <p>升級 karam packages，語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D karma karma-coverage karma-mocha karma-phantomjs-launcher karma-phantomjs-shim karma-sinon-chaikarma-sourcemap-loader karma-spec-reporter karma-webpack@lastest</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
 <h1 id="Issues-Summary"><a href="#Issues-Summary" class="headerlink" title="Issues Summary"></a>Issues Summary</h1><h3 id="TypeError-Cannot-read-property-‘eslint’-of-undefined"><a href="#TypeError-Cannot-read-property-‘eslint’-of-undefined" class="headerlink" title="TypeError: Cannot read property ‘eslint’ of undefined"></a>TypeError: Cannot read property ‘eslint’ of undefined</h3><p>錯誤訊息全文：</p>
 <blockquote>
 <p><span style="color: red"><code>Module build failed (from ./node_modules/eslint-loader/index.js):
@@ -343,6 +345,7 @@ TypeError: Cannot read property &#39;eslint&#39; of undefined</code></span></p>
 <p>若安裝的是 <code>vue-loader@15</code> 必須在 <code>webpack.prod.conf.js</code> 檔案內載入 <code>vue-loader</code>, 語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const VueLoaderPlugin = require(&apos;vue-loader/lib/plugin&apos;)</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    new VueLoaderPlugin()</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <h3 id="檔案大小警告"><a href="#檔案大小警告" class="headerlink" title="檔案大小警告"></a>檔案大小警告</h3><p><span style="color: red">WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).</span></p>
 <p>添加在 <code>webpack.conf</code> 中處理語法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">performance: &#123;</span><br><span class="line">    hints: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
 <h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a href="https://webpack.js.org/concepts/mode" target="_blank" rel="noopener">https://webpack.js.org/concepts/mode</a><br><a href="https://github.com/webpack/webpack/issues/6556" target="_blank" rel="noopener">https://github.com/webpack/webpack/issues/6556</a><br><a href="https://github.com/dwqs/blog/issues/60" target="_blank" rel="noopener">https://github.com/dwqs/blog/issues/60</a><br><a href="https://www.smwenku.com/a/5b8cf99b2b71771883380a19/" target="_blank" rel="noopener">https://www.smwenku.com/a/5b8cf99b2b71771883380a19/</a><br><a href="https://segmentfault.com/a/1190000015639537" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015639537</a><br><a href="https://www.jianshu.com/p/0bd6d0df79fb" target="_blank" rel="noopener">https://www.jianshu.com/p/0bd6d0df79fb</a><br><a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a</a><br><a href="https://juejin.im/post/5bd2c74fe51d457a845f8c4d" target="_blank" rel="noopener">https://juejin.im/post/5bd2c74fe51d457a845f8c4d</a><br><a href="http://coderlt.coding.me/2018/04/12/webpack4/" target="_blank" rel="noopener">http://coderlt.coding.me/2018/04/12/webpack4/</a></p>
 
       
@@ -471,7 +474,7 @@ TypeError: Cannot read property &#39;eslint&#39; of undefined</code></span></p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -484,7 +487,7 @@ TypeError: Cannot read property &#39;eslint&#39; of undefined</code></span></p>
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
