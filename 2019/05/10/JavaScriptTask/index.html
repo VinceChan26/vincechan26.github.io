@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+  <meta name="keywords" content="var,let,const,作用域,hoisting,single thread,setTimeout,setInterval,macrotask,microtask,process.next,Promise,javascript queues," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="探討 var, let 和 const 等作用域關係，理解 JavaScript 中的線程(macrotask 與 microtask)。">
+<meta name="keywords" content="var,let,const,作用域,hoisting,single thread,setTimeout,setInterval,macrotask,microtask,process.next,Promise,javascript queues">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript ES6 (var, let 和 const)作用域與 JavaScript 中的線程">
+<meta property="og:url" content="http://vincechan26.com/2019/05/10/JavaScriptTask/index.html">
+<meta property="og:site_name" content="Vince&#39;s notes">
+<meta property="og:description" content="探討 var, let 和 const 等作用域關係，理解 JavaScript 中的線程(macrotask 與 microtask)。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2019-05-10T09:49:45.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript ES6 (var, let 和 const)作用域與 JavaScript 中的線程">
+<meta name="twitter:description" content="探討 var, let 和 const 等作用域關係，理解 JavaScript 中的線程(macrotask 與 microtask)。">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincechan26.com/2019/05/10/JavaScriptTask/"/>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117628471-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117628471-2');
+</script>
+  <title>JavaScript ES6 (var, let 和 const)作用域與 JavaScript 中的線程 | Vince's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vince's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincechan26.com/2019/05/10/JavaScriptTask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vince Chan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vince's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript ES6 (var, let 和 const)作用域與 JavaScript 中的線程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-05-10T17:35:32+08:00">
+                2019-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h1 id="JavaScript-ES6"><a href="#JavaScript-ES6" class="headerlink" title="JavaScript ES6"></a>JavaScript ES6</h1><h2 id="var"><a href="#var" class="headerlink" title="var"></a>var</h2><ul>
+<li>可重複宣告</li>
+<li>變量聲明提升特性 (<code>var hoisting</code>)</li>
+</ul>
+<blockquote>
+<p>var 為 JavaScript 最弱的變數宣告</p>
+</blockquote>
+<p><br></p>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><ul>
+<li>可重複宣告</li>
+</ul>
+<p><br></p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><ul>
+<li>常數</li>
+<li>不允許重複宣告</li>
+</ul>
+<p><br></p>
+<h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><h2 id="var-作用域"><a href="#var-作用域" class="headerlink" title="var 作用域"></a>var 作用域</h2><blockquote>
+<p>為全局(<code>global</code>) 作用，無論在 function 內何處宣告通通都會因為 <code>hoisting</code> 特性進而提升。</p>
+</blockquote>
+<p><br></p>
+<h2 id="let-作用域"><a href="#let-作用域" class="headerlink" title="let 作用域"></a>let 作用域</h2><blockquote>
+<p>為 block (意指 <code>{}</code> 或是簡稱大括號) 內，除了 function 以外 if、for 的 <code>{}</code> 都屬於 let 的作用域。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function varA () &#123;</span><br><span class="line">  var aa = &apos;AAA&apos;;</span><br><span class="line">  if (true) &#123;</span><br><span class="line">    var aa = &apos;BBB&apos;;</span><br><span class="line">    // 這裡的 aa 依然是外層的 AAA，所以 AAA 即將被取代為 BBB</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(aa);  // BBB</span><br><span class="line">&#125;</span><br><span class="line">function letA () &#123;</span><br><span class="line">  let aa = &apos;CCC&apos;;</span><br><span class="line">  if (true) &#123;</span><br><span class="line">    let aa = &apos;DDD&apos;;</span><br><span class="line">    // 這裡的 aa 是不同的，只有在這個 if block 才有作用</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(aa);  // &apos;CC&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">varA();</span><br><span class="line">letA();</span><br></pre></td></tr></table></figure>
+<p>執行以下結果，試問結果何 ?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function test() &#123;</span><br><span class="line">    console.log(x);</span><br><span class="line">    var x = 20;</span><br><span class="line">&#125;</span><br><span class="line">test();</span><br></pre></td></tr></table></figure></p>
+<p>結果是 <code>undefined</code></p>
+<p>若是將 var 改為 let，結果為何 ?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function test() &#123;</span><br><span class="line">    console.log(x);</span><br><span class="line">    let x = 20;</span><br><span class="line">&#125;</span><br><span class="line">test();</span><br></pre></td></tr></table></figure></p>
+<p>結果為 ReferenceError，主要原因是在於說 <code>let 沒有 hoisting 特性</code></p>
+<p><br></p>
+<h1 id="JavaScript-Single-thread"><a href="#JavaScript-Single-thread" class="headerlink" title="JavaScript Single thread"></a>JavaScript Single thread</h1><blockquote>
+<p>JavaScript 是單線程<code>single thread</code> 語言</p>
+</blockquote>
+<p>所謂的單線程是指一個瀏覽器行程（process）只有一個 JS 的執行線程(但不代表瀏覽器是單線程)，同一個時段內只會有一段代碼在執行，代表一次只能完成一件事，如果有多件事，就代表你要排隊，一件一件的處理，如果有一件事卡死或要做很久，就代表下面的事永遠不會執行。</p>
+<p>優點是簡單，環境單純。<br>缺點是如果其中一個事件很耗時間，會拖慢整個程式執行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;</span><br><span class="line">    console.log(1)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">new Promise(function(resolve)&#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">    for(var i = 0; i &lt; 10000; i++)&#123;</span><br><span class="line">        i == 99 &amp;&amp; resolve();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(function()&#123;</span><br><span class="line">    console.log(3)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(4);</span><br></pre></td></tr></table></figure>
+<p><code>Result: 2 4 3 1</code></p>
+<p>為何結果會是 <code>2 4 3 1</code> ?</p>
+<p>主要原因是在於 setTimeout 為異步函式(<code>Asynchronous Function</code>)，所以會先執行主線程的 <code>Promise</code> 並進入異步等待 <code>then</code> 的回覆，所以會先執行外層的 console 4，再執行 then 的 callback console 3 最後則是 setTimeout 的 console 1</p>
+<p><br></p>
+<h1 id="setTimeout-fn-ms"><a href="#setTimeout-fn-ms" class="headerlink" title="setTimeout(fn, ms)"></a>setTimeout(fn, ms)</h1><p><code>setTimeout</code> 主要是<code>異步可以延遲執行</code>，以下是一個延遲 5 秒的範例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;延遲 5 秒&apos;);</span><br><span class="line">&#125;, 5000);</span><br></pre></td></tr></table></figure></p>
+<p>以下是一個範例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;延遲 5 秒&apos;);</span><br><span class="line">&#125;, 5000);</span><br><span class="line"></span><br><span class="line">console.log(&apos;執行 console&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>執行結果如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">執行 console</span><br><span class="line">延遲五秒</span><br></pre></td></tr></table></figure></p>
+<p>為何執行結果會先印出「執行 console」 ?<br>主要因為 <code>setTimeout 為異步函式</code>，所以會先執行同步任務(執行 console)。</p>
+<p>JavaScript 線程執行方式為</p>
+<ul>
+<li><code>console.log(&#39;延遲 5 秒&#39;)</code> 進入 Event Table 並註冊，開始 <code>seTimeout</code> 計時。</li>
+<li>執行 <code>console.log(&#39;執行 console&#39;)</code>，此時計時仍在繼續進行。</li>
+<li>5 秒到了，<code>seTimeout</code> 完成，<code>console.log(&#39;延遲 5 秒&#39;)</code> 進入 Event Queue。</li>
+<li><code>console.log(&#39;延遲 5 秒&#39;)</code> 進入主線程執行。</li>
+</ul>
+<blockquote>
+<p><code>setTimeout</code> 是經過指定時間後，才將 closure 內的任務加入至 Event Queue，因為 JavaScript 為單線程任務所以要逐一執行，因為原先主線程的任務可能會過於龐大，所以真正的 <code>setTimeout</code> 延遲可能會讓時間遠遠大於原先預期時間。</p>
+</blockquote>
+<p><br></p>
+<h2 id="setTimeout-fn-0"><a href="#setTimeout-fn-0" class="headerlink" title="setTimeout(fn, 0)"></a>setTimeout(fn, 0)</h2><p>setTimeout(fn, 0) 意指在最早可得的空閒時間執行，亦可了解為主線程執行全部的同步任務後就立即執行。</p>
+<blockquote>
+<p><code>setTimeout</code> 根據 HTML 標準，最快的時間為 4ms</p>
+</blockquote>
+<p><br></p>
+<h1 id="setInterval-fn-ms"><a href="#setInterval-fn-ms" class="headerlink" title="setInterval(fn, ms)"></a>setInterval(fn, ms)</h1><p><code>setInterval</code> 主要運用於<code>循環的執行</code>，執行順序來說 <code>setInterval</code> 會每隔指定的時間將任務的函式置入 Event Queue，如果先前的主程序過於龐大仍然會需要等待時間。</p>
+<blockquote>
+<p><code>setInterval(fn, ms)</code> 是指每過 <code>ms</code> 秒，就將 <code>fn</code> 置入 Event Queue，一旦 <code>setInterval</code> 的回調函式 <code>fn</code> 執行時間超過延遲時間 <code>ms</code>，則完全看不出有時間間隔。</p>
+</blockquote>
+<p><br></p>
+<h1 id="Promise-與-process-nextTick-callback"><a href="#Promise-與-process-nextTick-callback" class="headerlink" title="Promise 與 process.nextTick(callback)"></a>Promise 與 process.nextTick(callback)</h1><p><code>Promise</code> 就不再多做描述，建議搜尋「阮一峰 Promise」<br><code>process.nextTick(callback)</code> 類似 node.js 的 setTimeout，在事件的循環的下一次循換呼叫 callback 函式</p>
+<p><br></p>
+<h1 id="Macrotask-與-Mircotask"><a href="#Macrotask-與-Mircotask" class="headerlink" title="Macrotask 與 Mircotask"></a>Macrotask 與 Mircotask</h1><p>Macrotask 與 Mircotask 都屬於異步任務中的一種，Macrotask 又可稱為 Task queues，以下是兩者的 API 歸類。</p>
+<ul>
+<li>Macrotask<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate</li>
+<li>I/O</li>
+<li>UI rendering </li>
+</ul>
+</li>
+<li>Mircotask<ul>
+<li>process.nextTick</li>
+<li>Promise</li>
+<li>Object.observe</li>
+<li>MutationObserver</li>
+</ul>
+</li>
+</ul>
+<p>Macrotask 與 Microtask 有何處不同 ? 通過下面的程式碼來展現他們不同處。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">&#125;, 0);</span><br><span class="line"></span><br><span class="line">new Promise((resolve) =&gt; &#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(() =&gt; &#123;</span><br><span class="line">    console.log(4);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">process.nextTick(() =&gt; &#123;</span><br><span class="line">    console.log(5);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(6);</span><br></pre></td></tr></table></figure></p>
+<p><code>Result: 1 3 6 5 4 2</code></p>
+<blockquote>
+<p>在每次事件循環中，macrotask 只會提取一個執行，而 microtask 會一直不斷地提取，直到 microtask 被清空。</p>
+</blockquote>
+<blockquote>
+<p>主程序 -&gt; 主程序 (done) -&gt; microtask -&gt; microtask (done) -&gt; macrotask -&gt; macrotask (done)</p>
+</blockquote>
+<p><br></p>
+<h1 id="More"><a href="#More" class="headerlink" title="More"></a>More</h1><p><a href="http://marklin-blog.logdown.com/posts/294468-javascript-single-thread" target="_blank">Javascript 單線程</a><br><a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules" target="_blank">Tasks, microtasks, queues and schedules</a><br><a href="https://juejin.im/entry/58d4df3b5c497d0057eb99ff" target="_blank">理解 JavaScript 中的 macrotask 和 microtask</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/var/" rel="tag"># var</a>
+          
+            <a href="/tags/let/" rel="tag"># let</a>
+          
+            <a href="/tags/const/" rel="tag"># const</a>
+          
+            <a href="/tags/作用域/" rel="tag"># 作用域</a>
+          
+            <a href="/tags/hoisting/" rel="tag"># hoisting</a>
+          
+            <a href="/tags/single-thread/" rel="tag"># single thread</a>
+          
+            <a href="/tags/setTimeout/" rel="tag"># setTimeout</a>
+          
+            <a href="/tags/setInterval/" rel="tag"># setInterval</a>
+          
+            <a href="/tags/macrotask/" rel="tag"># macrotask</a>
+          
+            <a href="/tags/microtask/" rel="tag"># microtask</a>
+          
+            <a href="/tags/process-next/" rel="tag"># process.next</a>
+          
+            <a href="/tags/Promise/" rel="tag"># Promise</a>
+          
+            <a href="/tags/javascript-queues/" rel="tag"># javascript queues</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/01/RDBMS/" rel="next" title="RDBMS 的 ACID">
+                <i class="fa fa-chevron-left"></i> RDBMS 的 ACID
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Vince Chan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript-ES6"><span class="nav-number">1.</span> <span class="nav-text">JavaScript ES6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#var"><span class="nav-number">1.1.</span> <span class="nav-text">var</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#let"><span class="nav-number">1.2.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#const"><span class="nav-number">1.3.</span> <span class="nav-text">const</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作用域"><span class="nav-number">2.</span> <span class="nav-text">作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#var-作用域"><span class="nav-number">2.1.</span> <span class="nav-text">var 作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#let-作用域"><span class="nav-number">2.2.</span> <span class="nav-text">let 作用域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript-Single-thread"><span class="nav-number">3.</span> <span class="nav-text">JavaScript Single thread</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setTimeout-fn-ms"><span class="nav-number">4.</span> <span class="nav-text">setTimeout(fn, ms)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#setTimeout-fn-0"><span class="nav-number">4.1.</span> <span class="nav-text">setTimeout(fn, 0)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setInterval-fn-ms"><span class="nav-number">5.</span> <span class="nav-text">setInterval(fn, ms)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise-與-process-nextTick-callback"><span class="nav-number">6.</span> <span class="nav-text">Promise 與 process.nextTick(callback)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Macrotask-與-Mircotask"><span class="nav-number">7.</span> <span class="nav-text">Macrotask 與 Mircotask</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#More"><span class="nav-number">8.</span> <span class="nav-text">More</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vince Chan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
